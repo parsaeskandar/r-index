@@ -471,6 +471,40 @@ public:
 
 	}
 
+    vector< pair< uint64_t, uint64_t > >  ISA(string &P){
+
+
+        vector<pair<uint64_t, uint64_t>> end_of_seq;
+
+//        vector<ulint> OCC;
+
+        pair<range_t, ulint> res = count_and_get_occ(P);
+
+        ulint L = std::get<0>(res).first;
+        ulint R = std::get<0>(res).second;
+        ulint k = std::get<1>(res);	//SA[R]
+
+        ulint n_occ = R>=L ? (R-L)+1 : 0;
+
+        if(n_occ>0){
+
+//            OCC.push_back(k);
+            end_of_seq.push_back(make_pair(R, k));
+
+
+            for(ulint i=1;i<n_occ;++i){
+
+                k = Phi(k);
+                end_of_seq.push_back(make_pair(R - i, k));
+
+            }
+
+        }
+
+        return end_of_seq;
+
+    }
+
 private:
 
 	/*
@@ -669,3 +703,4 @@ private:
 }
 
 #endif /* R_INDEX_S_H_ */
+
